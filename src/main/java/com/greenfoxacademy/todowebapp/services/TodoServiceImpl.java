@@ -34,7 +34,7 @@ public class TodoServiceImpl implements TodoService {
 
   @Override
   public void addTodo(int listId, Todo todo) {
-
+    getListById(listId).add(todo);
   }
 
   public void addList(TodoList todoList) {
