@@ -1,0 +1,52 @@
+html {
+  background-color: rgb(216, 128, 12);
+}
+
+.row {
+  width: 1000px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(245, 163, 41);
+  border-radius: 4px;
+  box-shadow: 0 4px 8px 0 rgba(204, 201, 201, 0.2), 0 3px 10px 0;
+}
+
+h1 {
+  text-align: center;
+  position: relative;
+  margin: 20px;
+  font-size: 20px;
+}
+
+.h1button {
+  color: black;
+}
+
+.h1button:hover {
+  color: black;
+  background-color: rgb(245, 163, 41);
+  border-color: rgb(245, 163, 41);
+}
+
+.lists {
+  box-shadow: 0 1px 4px 0 rgba(204, 201, 201, 0.2), 0 1px 4px 0;
+  border-radius: 2px;
+}
+
+ul {
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+}
+
+.btn-secondary {
+  background-color: rgb(245, 163, 41);
+  border-color: rgb(245, 163, 41);
+}
+
+.btn-secondary:hover {
+  background-color: rgb(228, 152, 38);
+  border-color: rgb(228, 152, 38);
+}

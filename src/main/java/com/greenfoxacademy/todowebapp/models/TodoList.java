@@ -24,8 +24,12 @@ public class TodoList {
   }
 
   public void remove(Todo todo) {
-    if(todolist.contains(todo))
+    if (todolist.contains(todo))
       todolist.remove(todo);
+  }
+
+  public void remove(int id) {
+    todolist.remove(id);
   }
 
   public Todo getTodoById(int todoID) {

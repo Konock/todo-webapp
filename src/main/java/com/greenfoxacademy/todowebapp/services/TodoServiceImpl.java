@@ -36,4 +36,12 @@ public class TodoServiceImpl implements TodoService {
   public void addTodo(int listId, Todo todo) {
 
   }
+
+  public void addList(TodoList todoList) {
+    todoRepository.todolists.add(todoList);
+  }
+
+  public void removeList(int id) {
+    todoRepository.todolists.remove(id);
+  }
 }
