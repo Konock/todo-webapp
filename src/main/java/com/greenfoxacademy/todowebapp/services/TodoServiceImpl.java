@@ -6,7 +6,7 @@ import com.greenfoxacademy.todowebapp.repositories.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @Service
 public class TodoServiceImpl implements TodoService {
@@ -23,17 +23,17 @@ public class TodoServiceImpl implements TodoService {
   }
 
   @Override
-  public List<TodoList> getLists() {
-    return null;
+  public ArrayList<TodoList> getLists() {
+    return todoRepository.todolists;
   }
 
   @Override
-  public TodoList getListById(long listId) {
-    return null;
+  public TodoList getListById(int listId) {
+    return todoRepository.todolists.get(listId);
   }
 
   @Override
-  public void addTodo(long listId, Todo todo) {
+  public void addTodo(int listId, Todo todo) {
 
   }
 }

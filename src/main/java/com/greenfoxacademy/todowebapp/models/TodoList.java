@@ -28,6 +28,9 @@ public class TodoList {
       todolist.remove(todo);
   }
 
+  public Todo getTodoById(int todoID) {
+    return todolist.get(todoID);
+  }
 
   public ArrayList<Todo> getTodolist() {
     return todolist;

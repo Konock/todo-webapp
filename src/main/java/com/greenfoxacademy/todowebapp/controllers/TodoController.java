@@ -3,6 +3,7 @@ package com.greenfoxacademy.todowebapp.controllers;
 import com.greenfoxacademy.todowebapp.services.TodoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -15,7 +16,9 @@ public class TodoController {
   }
 
   @GetMapping(value={"/", "todoapp"})
-  public String loadApp() {
+  public String loadApp(Model model) {
+    model.addAttribute("todolists", todoService.getLists());
+    model.addAttribute("todos", todoService.getListById(0).getTodolist());
     return "index";
   }
 }
