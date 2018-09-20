@@ -16,7 +16,7 @@
     <title>Todo todo</title>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#"><i class="fas fa-th-list"></i> Totodo</a>
+        <a class="navbar-brand" href="/"><i class="fas fa-th-list"></i> Totodo</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
@@ -59,10 +59,12 @@
                 <button class="btn btn-secondary" th:each="todo: ${todolist}" th:text="${todo.task}"></button>
             </div>
             <div class="col-sm-2 btn-group-vertical btn-group-lg listbuttons">
-                <a class="btn btn-secondary inlinebutton" th:object="${todolistobject}" th:each="todo: ${todolist}" th:href="@{${todolistobject.id} + '/delete/' + ${todo.id}}"><i
+                <a class="btn btn-secondary inlinebutton" th:object="${todolistobject}" th:each="todo: ${todolist}"
+                   th:href="@{${todolistobject.id} + '/delete/' + ${todo.id}}"><i
                         class="fas fa-trash"></i></a>
             </div>
-            <form class="form-inline" th:object="${todolistobject}" th:action="@{${todolistobject.id} + '/addtodo/'}" method="post">
+            <form class="form-inline" th:object="${todolistobject}" th:action="@{${todolistobject.id} + '/addtodo/'}"
+                  method="post">
                 <div class="form-group mb-2">
                     <label for="task"></label>
                     <input class="form-text" type="text" id="task" name="task">

@@ -22,7 +22,8 @@ h1 {
 }
 
 .h1button {
-  color: black;
+  color: #404040;
+  text-shadow: 1px 1px #404040;
 }
 
 .h1button:hover {
@@ -34,11 +35,6 @@ h1 {
 .lists {
   box-shadow: 0 1px 4px 0 rgba(204, 201, 201, 0.2), 0 1px 4px 0;
   border-radius: 2px;
-}
-
-ul {
-  margin-block-start: 0em;
-  margin-block-end: 0em;
 }
 
 .btn-secondary {

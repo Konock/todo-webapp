@@ -16,7 +16,7 @@ public class TodoController {
     this.todoService = todoService;
   }
 
-  @GetMapping(value={"/", "todoapp"})
+  @GetMapping(value = {"/", "todoapp"})
   public String loadApp(Model model) {
     model.addAttribute("todolistlist", todoService.getLists());
     model.addAttribute("todolistobject", todoService.getListById(0));
@@ -33,7 +33,7 @@ public class TodoController {
   }
 
   @PostMapping("/addlist")
-  public String addList(@ModelAttribute(value="name") String name) {
+  public String addList(@ModelAttribute(value = "name") String name) {
     todoService.addList(todoService.createList(name));
     return "redirect:/";
   }
@@ -44,14 +44,14 @@ public class TodoController {
     return "redirect:/";
   }
 
-  @PostMapping("{todolistobject.id}/addtodo/")
-  public String addTodo(@PathVariable(value = "todolistobject.id") int listid, @ModelAttribute(value="task") String task) {
+  @PostMapping(value = {"/{todolistobject.id}/addtodo", "getlist/{todolistobject.id}/addtodo"})
+  public String addTodo(@PathVariable(value = "todolistobject.id") int listid, @ModelAttribute(value = "task") String task) {
     todoService.getListById(listid).add(new Todo(task));
     return "redirect:/";
   }
 
-  @GetMapping("{todolistobject.id}/delete/{todo.id}")
-  public String deleteTodo(@PathVariable(value = "todolistobject.id") int listid,@PathVariable(value = "todo.id") int id) {
+  @GetMapping(value = {"/{todolistobject.id}/delete/{todo.id}", "getlist/{todolistobject.id}/delete/{todo.id}"})
+  public String deleteTodo(@PathVariable(value = "todolistobject.id") int listid, @PathVariable(value = "todo.id") int id) {
     todoService.getListById(listid).remove(id);
     return "redirect:/";
   }
