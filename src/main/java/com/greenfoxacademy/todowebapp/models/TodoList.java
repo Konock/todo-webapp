@@ -28,12 +28,13 @@ public class TodoList {
       todolist.remove(todo);
   }
 
-  public void remove(int id) {
-    todolist.remove(id);
-  }
-
   public Todo getTodoById(int todoID) {
-    return todolist.get(todoID);
+    int num = 0;
+    for (int i = 0; i < todolist.size(); i++) {
+      if (todolist.get(i).getId() == todoID)
+        num = i;
+    }
+    return todolist.get(num);
   }
 
   public ArrayList<Todo> getTodolist() {

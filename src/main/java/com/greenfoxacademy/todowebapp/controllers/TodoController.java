@@ -47,12 +47,12 @@ public class TodoController {
   @PostMapping(value = {"/{todolistobject.id}/addtodo", "getlist/{todolistobject.id}/addtodo"})
   public String addTodo(@PathVariable(value = "todolistobject.id") int listid, @ModelAttribute(value = "task") String task) {
     todoService.getListById(listid).add(new Todo(task));
-    return "redirect:/";
+    return "redirect:/getlist/{todolistobject.id}";
   }
 
   @GetMapping(value = {"/{todolistobject.id}/delete/{todo.id}", "getlist/{todolistobject.id}/delete/{todo.id}"})
-  public String deleteTodo(@PathVariable(value = "todolistobject.id") int listid, @PathVariable(value = "todo.id") int id) {
-    todoService.getListById(listid).remove(id);
-    return "redirect:/";
+  public String deleteTodo(@PathVariable(value = "todolistobject.id") int listid, @PathVariable(value = "todo.id") int todoid) {
+    todoService.removeTodo(listid, todoid);
+    return "redirect:/getlist/{todolistobject.id}";
   }
 }

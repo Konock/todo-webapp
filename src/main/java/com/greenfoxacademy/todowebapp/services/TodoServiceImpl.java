@@ -29,7 +29,12 @@ public class TodoServiceImpl implements TodoService {
 
   @Override
   public TodoList getListById(int listId) {
-    return todoRepository.todolists.get(listId);
+    int num = 0;
+    for (int i = 0; i < todoRepository.todolists.size(); i++) {
+      if (todoRepository.todolists.get(i).getId() == listId)
+        num = i;
+    }
+    return todoRepository.todolists.get(num);
   }
 
   @Override
@@ -43,5 +48,9 @@ public class TodoServiceImpl implements TodoService {
 
   public void removeList(int id) {
     todoRepository.todolists.remove(id);
+  }
+
+  public void removeTodo(int listid, int todoid) {
+    getListById(listid).remove(getListById(listid).getTodoById(todoid));
   }
 }
