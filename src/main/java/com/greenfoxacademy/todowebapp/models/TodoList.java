@@ -2,6 +2,7 @@ package com.greenfoxacademy.todowebapp.models;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class TodoList {
@@ -10,7 +11,7 @@ public class TodoList {
   private long id;
   private String name;
   @OneToMany(cascade = CascadeType.ALL)
-  private ArrayList<Todo> todolist;
+  private List<Todo> todolist;
 
   public TodoList() {
     todolist = new ArrayList<>();
@@ -19,6 +20,10 @@ public class TodoList {
   public TodoList(String name) {
     this.name = name;
     todolist = new ArrayList<>();
+  }
+
+  public void setTodolist(List<Todo> todolist) {
+    this.todolist = todolist;
   }
 
   public void add(Todo todo) {
@@ -39,7 +44,7 @@ public class TodoList {
     return todolist.get(num);
   }
 
-  public ArrayList<Todo> getTodolist() {
+  public List<Todo> getTodolist() {
     return todolist;
   }
 

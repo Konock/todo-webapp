@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TodoServiceImpl implements TodoService {
@@ -29,7 +29,7 @@ public class TodoServiceImpl implements TodoService {
   }
 
   @Override
-  public ArrayList<TodoList> getLists() {
+  public List<TodoList> getLists() {
     return todoListRepository.findAll();
   }
 
