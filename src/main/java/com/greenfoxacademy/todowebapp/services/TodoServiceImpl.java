@@ -39,6 +39,11 @@ public class TodoServiceImpl implements TodoService {
   }
 
   @Override
+  public Todo getTodoById(long todoId) {
+    return todoRepository.findById(todoId);
+  }
+
+  @Override
   @Transactional
   public Todo addTodo(long listId, Todo newTodo) {
     TodoList todoList = todoListRepository.findById(listId);

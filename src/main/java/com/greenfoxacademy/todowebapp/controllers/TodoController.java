@@ -45,8 +45,8 @@ public class TodoController {
   }
 
   @PostMapping(value = {"/getlist/{todolistobject.id}/addtodo"})
-  public String addTodo(@PathVariable(value = "todolistobject.id") long listid, @ModelAttribute(value = "task") Todo newTodo) {
-    todoService.addTodo(listid, newTodo);
+  public String addTodo(@PathVariable(value = "todolistobject.id") long listid, @ModelAttribute(value = "task") String task) {
+    todoService.addTodo(listid, new Todo(task));
     return "redirect:/getlist/{todolistobject.id}";
   }
 
@@ -56,9 +56,9 @@ public class TodoController {
     return "redirect:/getlist/{todolistobject.id}";
   }
 
-  // @GetMapping(value = {"/getlist/{todolistobject.id}/check/{todo.id}"})
-  // public String checkTodo(@PathVariable(value = "todolistobject.id") long listid, @PathVariable(value = "todo.id") long todoid) {
-  //   todoService.getListById(listid).getTodoById(todoid).complete();
-  //   return "redirect:/getlist/{todolistobject.id}";
-  // }
+  @GetMapping(value = {"/getlist/{todolistobject.id}/check/{todo.id}"})
+  public String checkTodo(@PathVariable(value = "todolistobject.id") long listid, @PathVariable(value = "todo.id") long todoid) {
+    todoService.getTodoById(todoid).complete();
+    return "redirect:/getlist/{todolistobject.id}";
+  }
 }

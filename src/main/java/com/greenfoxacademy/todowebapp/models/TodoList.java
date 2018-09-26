@@ -35,15 +35,6 @@ public class TodoList {
       todolist.remove(todo);
   }
 
-  public Todo getTodoById(int todoID) {
-    int num = 0;
-    for (int i = 0; i < todolist.size(); i++) {
-      if (todolist.get(i).getId() == todoID)
-        num = i;
-    }
-    return todolist.get(num);
-  }
-
   public List<Todo> getTodolist() {
     return todolist;
   }
