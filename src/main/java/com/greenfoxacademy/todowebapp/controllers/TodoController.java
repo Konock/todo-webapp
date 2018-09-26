@@ -18,7 +18,6 @@ public class TodoController {
 
   @GetMapping("/")
   public String loadApp(Model model) {
-    todoService.createList("Shop");
     model.addAttribute("todolistlist", todoService.getLists());
     model.addAttribute("todolistobject", todoService.getListById(1));
     model.addAttribute("todolist", todoService.getListById(1).getTodolist());
