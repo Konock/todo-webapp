@@ -34,31 +34,31 @@ public class TodoController {
 
   @PostMapping("/addlist")
   public String addList(@ModelAttribute(value = "name") String name) {
-    todoService.addList(todoService.createList(name));
+    todoService.createList(name);
     return "redirect:/";
   }
 
   @RequestMapping("deletelist/{todolist.id}")
-  public String deleteList(@PathVariable(value = "todolist.id") int id) {
+  public String deleteList(@PathVariable(value = "todolist.id") long id) {
     todoService.removeList(id);
     return "redirect:/";
   }
 
   @PostMapping(value = {"/getlist/{todolistobject.id}/addtodo"})
-  public String addTodo(@PathVariable(value = "todolistobject.id") int listid, @ModelAttribute(value = "task") String task) {
-    todoService.getListById(listid).add(new Todo(task));
+  public String addTodo(@PathVariable(value = "todolistobject.id") long listid, @ModelAttribute(value = "task") Todo newTodo) {
+    todoService.addTodo(listid, newTodo);
     return "redirect:/getlist/{todolistobject.id}";
   }
 
   @GetMapping(value = {"/getlist/{todolistobject.id}/delete/{todo.id}"})
-  public String deleteTodo(@PathVariable(value = "todolistobject.id") int listid, @PathVariable(value = "todo.id") int todoid) {
+  public String deleteTodo(@PathVariable(value = "todolistobject.id") long listid, @PathVariable(value = "todo.id") long todoid) {
     todoService.removeTodo(listid, todoid);
     return "redirect:/getlist/{todolistobject.id}";
   }
 
-  @GetMapping(value = {"/getlist/{todolistobject.id}/check/{todo.id}"})
-  public String checkTodo(@PathVariable(value = "todolistobject.id") int listid, @PathVariable(value = "todo.id") int todoid) {
-    todoService.getListById(listid).getTodoById(todoid).complete();
-    return "redirect:/getlist/{todolistobject.id}";
-  }
+  // @GetMapping(value = {"/getlist/{todolistobject.id}/check/{todo.id}"})
+  // public String checkTodo(@PathVariable(value = "todolistobject.id") long listid, @PathVariable(value = "todo.id") long todoid) {
+  //   todoService.getListById(listid).getTodoById(todoid).complete();
+  //   return "redirect:/getlist/{todolistobject.id}";
+  // }
 }

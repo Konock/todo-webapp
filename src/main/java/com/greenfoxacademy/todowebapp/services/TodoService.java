@@ -9,6 +9,6 @@ public interface TodoService {
 
   TodoList createList(String listname);
   List<TodoList> getLists();
-  TodoList getListById(int listId);
-  void addTodo(int listId, Todo todo);
+  TodoList getListById(long listId);
+  void addTodo(long listId, Todo todo);
 }

@@ -1,43 +1,32 @@
 package com.greenfoxacademy.todowebapp.models;
 
-import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class Todo {
-  private static int idCounter = 0;
-  private int id;
-  private LocalDateTime createdAt;
-  private LocalDateTime completedAt;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private long id;
   private String task;
+  private boolean completed;
 
   public Todo(String task) {
-    id = idCounter++;
-    createdAt = LocalDateTime.now();
     this.task = task;
-  }
-
-  public Todo(int id, String task, LocalDateTime createdAt, LocalDateTime completedAt) {
-    this.id = id;
-    this.task = task;
-    this.createdAt = createdAt;
-    this.completedAt = completedAt;
-  }
-
-  public boolean isCompleted() {
-    boolean isCompleted = false;
-    if (completedAt != null && completedAt.compareTo(LocalDateTime.now()) < 0)
-      isCompleted = true;
-    return isCompleted;
+    completed = false;
   }
 
   public void complete() {
-    completedAt = LocalDateTime.now();
+    completed = true;
   }
 
   public String getTask() {
     return task;
   }
 
-  public int getId() {
+  public long getId() {
     return id;
   }
 
@@ -45,7 +34,11 @@ public class Todo {
     task = description;
   }
 
-  public static void setIdCounter(int count) {
-    idCounter = count;
+  public boolean isCompleted() {
+    return completed;
+  }
+
+  public void setCompleted(boolean completed) {
+    this.completed = completed;
   }
 }

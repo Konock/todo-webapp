@@ -1,20 +1,22 @@
 package com.greenfoxacademy.todowebapp.models;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 
+@Entity
 public class TodoList {
-  private static int idCounter = 0;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
   private String name;
+  @OneToMany(cascade = CascadeType.ALL)
   private ArrayList<Todo> todolist;
 
   public TodoList() {
-    id = idCounter++;
     todolist = new ArrayList<>();
   }
 
   public TodoList(String name) {
-    id = idCounter++;
     this.name = name;
     todolist = new ArrayList<>();
   }
