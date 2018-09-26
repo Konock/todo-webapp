@@ -40,10 +40,11 @@ public class TodoServiceImpl implements TodoService {
 
   @Override
   @Transactional
-  public void addTodo(long listId, Todo newTodo) {
+  public Todo addTodo(long listId, Todo newTodo) {
     TodoList todoList = todoListRepository.findById(listId);
     todoList.add(newTodo);
     todoListRepository.save(todoList);
+    return newTodo;
   }
 
   public void removeList(long id) {

@@ -10,5 +10,5 @@ public interface TodoService {
   TodoList createList(String listname);
   List<TodoList> getLists();
   TodoList getListById(long listId);
-  void addTodo(long listId, Todo todo);
+  Todo addTodo(long listId, Todo todo);
 }
