@@ -17,11 +17,18 @@ public class TodoController {
   }
 
   @GetMapping("/")
-  public String loadApp(Model model) {
+  public String loadApp() {
+    if (todoService.getLists() == null) {
+      return "nolistsview";
+    } else {
+      return "redirect:/getlist";
+    }
+  }
+
+  @GetMapping("getlist")
+  public String getLists(Model model) {
     model.addAttribute("todolistlist", todoService.getLists());
-    model.addAttribute("todolistobject", todoService.getListById(1));
-    model.addAttribute("todolist", todoService.getListById(1).getTodolist());
-    return "index";
+    return "getlistsview";
   }
 
   @GetMapping("getlist/{todolist.id}")
