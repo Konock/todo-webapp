@@ -20,10 +20,6 @@ public class Todo {
     completed = false;
   }
 
-  public void complete() {
-    completed = true;
-  }
-
   public String getTask() {
     return task;
   }

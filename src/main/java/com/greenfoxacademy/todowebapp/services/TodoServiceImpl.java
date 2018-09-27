@@ -56,6 +56,17 @@ public class TodoServiceImpl implements TodoService {
     todoListRepository.delete(todoListRepository.findById(id));
   }
 
+  @Override
+  public Todo checkTodo(long todoId) {
+    Todo todo = getTodoById(todoId);
+    if (!todo.isCompleted())
+      todo.setCompleted(true);
+    else
+      todo.setCompleted(false);
+    todoRepository.save(todo);
+    return todo;
+  }
+
   @Transactional
   public void removeTodo(long listId, long todoId) {
     TodoList todoList = todoListRepository.findById(listId);

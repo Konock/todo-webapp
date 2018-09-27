@@ -44,21 +44,21 @@ public class TodoController {
     return "redirect:/";
   }
 
-  @PostMapping(value = {"/getlist/{todolistobject.id}/addtodo"})
+  @PostMapping(value = {"/{todolistobject.id}/addtodo", "/getlist/{todolistobject.id}/addtodo"})
   public String addTodo(@PathVariable(value = "todolistobject.id") long listid, @ModelAttribute(value = "task") String task) {
     todoService.addTodo(listid, new Todo(task));
     return "redirect:/getlist/{todolistobject.id}";
   }
 
-  @GetMapping(value = {"/getlist/{todolistobject.id}/delete/{todo.id}"})
+  @GetMapping(value = {"/{todolistobject.id}/delete/{todo.id}", "/getlist/{todolistobject.id}/delete/{todo.id}"})
   public String deleteTodo(@PathVariable(value = "todolistobject.id") long listid, @PathVariable(value = "todo.id") long todoid) {
     todoService.removeTodo(listid, todoid);
     return "redirect:/getlist/{todolistobject.id}";
   }
 
-  @GetMapping(value = {"/getlist/{todolistobject.id}/check/{todo.id}"})
+  @GetMapping(value = {"/{todolistobject.id}/check/{todo.id}", "/getlist/{todolistobject.id}/check/{todo.id}"})
   public String checkTodo(@PathVariable(value = "todolistobject.id") long listid, @PathVariable(value = "todo.id") long todoid) {
-    todoService.getTodoById(todoid).complete();
+    todoService.checkTodo(todoid);
     return "redirect:/getlist/{todolistobject.id}";
   }
 }
