@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class TodoController {
   TodoServiceImpl todoService;
+  private static long activeListId;
 
   @Autowired
   public TodoController(TodoServiceImpl todoService) {
@@ -33,9 +34,10 @@ public class TodoController {
 
   @GetMapping("getlist/{todolist.id}")
   public String getList(@PathVariable(value = "todolist.id") int id, Model model) {
+    activeListId = id;
     model.addAttribute("todolistlist", todoService.getLists());
-    model.addAttribute("todolistobject", todoService.getListById(id));
-    model.addAttribute("todolist", todoService.getTodosByListId(id));
+    model.addAttribute("todolistobject", todoService.getListById(activeListId));
+    model.addAttribute("todolist", todoService.getSortedTodosByListId(activeListId));
     return "index";
   }
 
@@ -51,33 +53,54 @@ public class TodoController {
     return "redirect:/";
   }
 
-  @PostMapping(value = {"/getlist/{todolistobject.id}/addtodo"})
-  public String addTodo(@PathVariable(value = "todolistobject.id") long listid, @ModelAttribute(value = "task") String task) {
-    todoService.addTodo(listid, new Todo(task));
-    return "redirect:/getlist/{todolistobject.id}";
+  @PostMapping("/addtodo")
+  public String addTodo(@ModelAttribute(value = "task") String task) {
+    todoService.addTodo(activeListId, new Todo(task));
+    return "redirect:/getlist/" + activeListId;
   }
 
-  @GetMapping(value = {"/getlist/{todolistobject.id}/delete/{todo.id}"})
-  public String deleteTodo(@PathVariable(value = "todolistobject.id") long listid, @PathVariable(value = "todo.id") long todoid) {
-    todoService.removeTodo(listid, todoid);
-    return "redirect:/getlist/{todolistobject.id}";
+  @GetMapping("/delete/{todo.id}")
+  public String deleteTodo(@PathVariable(value = "todo.id") long todoid) {
+    todoService.removeTodo(activeListId, todoid);
+    return "redirect:/getlist/" + activeListId;
   }
 
-  @GetMapping(value = {"/getlist/{todolistobject.id}/check/{todo.id}"})
-  public String checkTodo(@PathVariable(value = "todolistobject.id") long listid, @PathVariable(value = "todo.id") long todoid) {
+  @GetMapping("/check/{todo.id}")
+  public String checkTodo(@PathVariable(value = "todo.id") long todoid) {
     todoService.checkTodo(todoid);
-    return "redirect:/getlist/{todolistobject.id}";
+    return "redirect:/getlist/" + activeListId;
   }
 
-  @GetMapping(value = {"/getlist/{todolistobject.id}/setprio/{todo.id}"})
-  public String prioritizeTodo(@PathVariable(value = "todolistobject.id") long listid, @PathVariable(value = "todo.id") long todoid) {
+  @GetMapping("/setprio/{todo.id}")
+  public String prioritizeTodo(@PathVariable(value = "todo.id") long todoid) {
     todoService.raiseTodoPrio(todoid);
-    return "redirect:/getlist/{todolistobject.id}";
+    return "redirect:/getlist/" + activeListId;
   }
 
-  @PostMapping(value = {"/getlist/{todolistobject.id}/edit/{todo.id}"})
-  public String editTodo(@PathVariable(value = "todolistobject.id") long listid, @PathVariable(value = "todo.id") long todoid, @ModelAttribute(value = "task") String task) {
+  @PostMapping("/edit/{todo.id")
+  public String editTodo(@PathVariable(value = "todo.id") long todoid, @ModelAttribute(value = "task") String task) {
     todoService.editTodo(task, todoid);
-    return "redirect:/getlist/{todolistobject.id}";
+    return "redirect:/getlist/" + activeListId;
+  }
+
+  @PostMapping("/searchtodos")
+  public String searchTodos(Model model, @ModelAttribute(value="search") String task) {
+    model.addAttribute("todolistlist", todoService.getLists());
+    model.addAttribute("todolist", todoService.searchTodoByTask(task));
+    return "customsearchview";
+  }
+
+  @GetMapping("/getcompleted")
+  public String getCompleted(Model model) {
+    model.addAttribute("todolistlist", todoService.getLists());
+    model.addAttribute("todolist", todoService.getCompletedTodos());
+    return "customsearchview";
+  }
+
+  @GetMapping("/getpriority")
+  public String getPriority(Model model) {
+    model.addAttribute("todolistlist", todoService.getLists());
+    model.addAttribute("todolist", todoService.getPriorityTodos());
+    return "customsearchview";
   }
 }

@@ -10,7 +10,7 @@ public interface TodoService {
   TodoList createList(String listname);
   List<TodoList> getLists();
   TodoList getListById(long listId);
-  List<Todo> getTodosByListId(long listId);
+  List<Todo> getSortedTodosByListId(long listId);
   Todo getTodoById(long todoId);
   Todo addTodo(long listId, Todo todo);
   void removeList(long id);

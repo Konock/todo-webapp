@@ -14,13 +14,22 @@
     <title>Totodo</title>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/"><i class="fas fa-th-list"></i> Totodo</a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+                aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <a class="navbar-brand" href="/"><i class="fas fa-th-list"></i> Totodo</a>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" href="#">Login</a>
                 </li>
             </ul>
+            <form class="form-inline my-2 my-lg-0" action="/searchtodos" method="post">
+                <input class="form-control mr-sm-2" id="search" name="search" type="search" placeholder="Search todos"
+                       aria-label="Search">
+                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+            </form>
         </div>
     </nav>
 </head>
@@ -40,6 +49,10 @@
                 <a class="btn btn-secondary inlinebutton" th:each="todolist: ${todolistlist}"
                    th:href="@{'/deletelist/' + ${todolist.id}}"><i class="fas fa-trash"></i></a>
             </div>
+            <div class="col-sm-8 btn-group-vertical btn-group-lg">
+                <a class="btn btn-secondary listbuttons" href="/getcompleted">Completed</a>
+                <a class="btn btn-secondary listbuttons" href="/getpriority">Priority</a>
+            </div>
             <form class="form-inline" action="/addlist" method="post">
                 <div class="form-group mb-2">
                     <label for="name"></label>
@@ -56,11 +69,12 @@
             <div th:each="todo: ${todolist}" th:object="${todo}">
                 <div class="col-sm-1 btn-group-vertical btn-group-lg">
                     <a class="btn btn-secondary inlinebutton"
-                       th:href="@{${todolistobject.id} + '/check/' + *{id}}"><i class="fas fa-clipboard-check"></i></a>
+                       th:href="@{'/check/' + *{id}}"><i class="fas fa-clipboard-check"></i></a>
                 </div>
                 <div class="col-sm-1 btn-group-vertical btn-group-lg">
                     <a class="btn btn-secondary inlinebutton"
-                       th:href="@{${todolistobject.id} + '/setprio/' + *{id}}"><i th:class="*{priority}? 'fas fa-bell' : 'fas fa-bell-slash'"></i></a>
+                       th:href="@{'/setprio/' + *{id}}"><i
+                            th:class="*{priority}? 'fas fa-bell' : 'fas fa-bell-slash'"></i></a>
                 </div>
                 <div class="col-sm-5 btn-group-vertical btn-group-lg">
                     <button th:onclick="|toggleDiv('*{id}')|" class="btn btn-secondary todobuttons" th:text="*{task}"
@@ -68,19 +82,19 @@
                 </div>
                 <div class="col-sm-2 btn-group-vertical btn-group-lg">
                     <a class="btn btn-secondary inlinebutton"
-                       th:href="@{${todolistobject.id} + '/delete/' + *{id}}"><i
+                       th:href="@{'/delete/' + *{id}}"><i
                             class="fas fa-trash"></i></a>
                 </div>
-                <form class="form-inline" th:action="@{${todolistobject.id} + '/edit/' + *{id}}"
+                <form class="form-inline" th:action="@{'/edit/' + *{id}}"
                       method="post">
                     <div class="card card-body form-group mb-2" th:id="*{id}" style="display:none;">
                         <label for="newtask"></label>
-                        <input class="form-text" type="text" id="newtask" name="task">
+                        <input class="form-text" type="text" th:value="*{task}" id="newtask" name="task">
                         <button type="submit" class="btn btn-sm btn-primary">save</button>
                     </div>
                 </form>
             </div>
-            <form class="form-inline taskform" th:action="@{${todolistobject.id} + '/addtodo/'}"
+            <form class="form-inline taskform" th:action="@{'/addtodo/'}"
                   method="post">
                 <div class="form-group mb-2">
                     <label for="task"></label>
@@ -92,8 +106,14 @@
     </div>
 </div>
 <script th:src="@{/toggle.js}"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 </body>
 </html>

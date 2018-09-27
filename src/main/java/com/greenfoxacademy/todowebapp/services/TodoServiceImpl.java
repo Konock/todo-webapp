@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,12 +42,29 @@ public class TodoServiceImpl implements TodoService {
   }
 
   @Override
-  public List<Todo> getTodosByListId(long listId) {
+  public List<Todo> getSortedTodosByListId(long listId) {
     List<Todo> todolist = todoListRepository.findById(listId).getTodolist().stream()
         .sorted(Comparator.comparing(Todo::isCompleted))
         .sorted(Comparator.comparing(Todo::getPriority).reversed())
         .collect(Collectors.toList());
     return todolist;
+  }
+
+  public List<Todo> searchTodoByTask(String task) {
+    List<Todo> alltodos = todoRepository.findAll();
+    List<Todo> foundTodos = new ArrayList<>();
+    for (Todo todo : alltodos)
+      if (todo.getTask().toLowerCase().contains(task.toLowerCase()))
+        foundTodos.add(todo);
+    return foundTodos;
+  }
+
+  public List<Todo> getCompletedTodos() {
+    return todoRepository.findByCompleted(true);
+  }
+
+  public List<Todo> getPriorityTodos() {
+    return todoRepository.findByPriority(true);
   }
 
   @Override
