@@ -54,20 +54,32 @@
 
         <!-- Todos will be shown here -->
         <div class="col-8 todos">
-            <h1 class="btn-secondary btn-lg h1button" th:object="${todolistobject}" th:text="'Your todos in ' + ${todolistobject.name}"></h1>
-            <div class="col-sm-2 btn-group-vertical btn-group-lg">
-                <a class="btn btn-secondary inlinebutton" th:each="todo: ${todolist}"
-                   th:href="@{${todolistobject.id} + '/check/' + ${todo.id}}"><i class="fas fa-clipboard-check"></i></a>
+            <h1 class="btn-secondary btn-lg h1button" th:object="${todolistobject}"
+                th:text="'Your todos in ' + ${todolistobject.name}"></h1>
+            <div th:each="todo: ${todolist}" th:object="${todo}">
+                <div class="col-sm-2 btn-group-vertical btn-group-lg">
+                    <a class="btn btn-secondary inlinebutton"
+                       th:href="@{${todolistobject.id} + '/check/' + *{id}}"><i class="fas fa-clipboard-check"></i></a>
+                </div>
+                <div class="col-sm-7 btn-group-vertical btn-group-lg">
+                    <button th:onclick="|toggleDiv('*{id}')|" class="btn btn-secondary todobuttons" th:text="*{task}"
+                            th:style="*{isCompleted()}? 'text-decoration: line-through' : ''"></button>
+                </div>
+                <div class="col-sm-2 btn-group-vertical btn-group-lg">
+                    <a class="btn btn-secondary inlinebutton"
+                       th:href="@{${todolistobject.id} + '/delete/' + *{id}}"><i
+                            class="fas fa-trash"></i></a>
+                </div>
+                <form class="form-inline" th:action="@{${todolistobject.id} + '/edit/' + *{id}}"
+                      method="post">
+                    <div class="card card-body form-group mb-2" th:id="*{id}" style="display:none;">
+                        <label for="newtask"></label>
+                        <input class="form-text" type="text" id="newtask" name="task">
+                        <button type="submit" class="btn btn-sm btn-primary">save</button>
+                    </div>
+                </form>
             </div>
-            <div class="col-sm-7 btn-group-vertical btn-group-lg">
-                <button class="btn btn-secondary todobuttons" th:each="todo: ${todolist}" th:text="${todo.task}" th:style="${todo.isCompleted()}? 'text-decoration: line-through' : ''"></button>
-            </div>
-            <div class="col-sm-2 btn-group-vertical btn-group-lg">
-                <a class="btn btn-secondary inlinebutton" th:object="${todolistobject}" th:each="todo: ${todolist}"
-                   th:href="@{${todolistobject.id} + '/delete/' + ${todo.id}}"><i
-                        class="fas fa-trash"></i></a>
-            </div>
-            <form class="form-inline taskform" th:object="${todolistobject}" th:action="@{${todolistobject.id} + '/addtodo/'}"
+            <form class="form-inline taskform" th:action="@{${todolistobject.id} + '/addtodo/'}"
                   method="post">
                 <div class="form-group mb-2">
                     <label for="task"></label>
@@ -78,6 +90,6 @@
         </div>
     </div>
 </div>
-</div>
+<script th:src="@{/toggle.js}"></script>
 </body>
 </html>

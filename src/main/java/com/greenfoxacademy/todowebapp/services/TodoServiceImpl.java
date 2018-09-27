@@ -43,6 +43,10 @@ public class TodoServiceImpl implements TodoService {
     return todoRepository.findById(todoId);
   }
 
+  public void removeList(long id) {
+    todoListRepository.delete(todoListRepository.findById(id));
+  }
+
   @Override
   @Transactional
   public Todo addTodo(long listId, Todo newTodo) {
@@ -52,10 +56,6 @@ public class TodoServiceImpl implements TodoService {
     return newTodo;
   }
 
-  public void removeList(long id) {
-    todoListRepository.delete(todoListRepository.findById(id));
-  }
-
   @Override
   public Todo checkTodo(long todoId) {
     Todo todo = getTodoById(todoId);
@@ -63,6 +63,22 @@ public class TodoServiceImpl implements TodoService {
       todo.setCompleted(true);
     else
       todo.setCompleted(false);
+    todoRepository.save(todo);
+    return todo;
+  }
+
+  @Override
+  public Todo editTodo(String task, long todoId) {
+    Todo todo = getTodoById(todoId);
+    todo.setTask(task);
+    todoRepository.save(todo);
+    return todo;
+  }
+
+  @Override
+  public Todo raiseTodoPrio(int priority, long todoId) {
+    Todo todo = getTodoById(todoId);
+    todo.setPriority(priority);
     todoRepository.save(todo);
     return todo;
   }

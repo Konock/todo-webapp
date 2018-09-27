@@ -14,4 +14,6 @@ public interface TodoService {
   Todo addTodo(long listId, Todo todo);
   void removeList(long id);
   Todo checkTodo(long todoId);
+  Todo editTodo(String task, long todoId);
+  Todo raiseTodoPrio(int priority, long todoId);
 }
