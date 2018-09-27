@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TodoServiceImpl implements TodoService {
@@ -39,6 +41,15 @@ public class TodoServiceImpl implements TodoService {
   }
 
   @Override
+  public List<Todo> getTodosByListId(long listId) {
+    List<Todo> todolist = todoListRepository.findById(listId).getTodolist().stream()
+        .sorted(Comparator.comparing(Todo::isCompleted))
+        .sorted(Comparator.comparing(Todo::getPriority).reversed())
+        .collect(Collectors.toList());
+    return todolist;
+  }
+
+  @Override
   public Todo getTodoById(long todoId) {
     return todoRepository.findById(todoId);
   }
@@ -59,10 +70,12 @@ public class TodoServiceImpl implements TodoService {
   @Override
   public Todo checkTodo(long todoId) {
     Todo todo = getTodoById(todoId);
-    if (!todo.isCompleted())
+    if (!todo.isCompleted()) {
       todo.setCompleted(true);
-    else
+      todo.setPriority(false);
+    } else {
       todo.setCompleted(false);
+    }
     todoRepository.save(todo);
     return todo;
   }
@@ -76,9 +89,12 @@ public class TodoServiceImpl implements TodoService {
   }
 
   @Override
-  public Todo raiseTodoPrio(int priority, long todoId) {
+  public Todo raiseTodoPrio(long todoId) {
     Todo todo = getTodoById(todoId);
-    todo.setPriority(priority);
+    if (!todo.getPriority())
+      todo.setPriority(true);
+    else
+      todo.setPriority(false);
     todoRepository.save(todo);
     return todo;
   }

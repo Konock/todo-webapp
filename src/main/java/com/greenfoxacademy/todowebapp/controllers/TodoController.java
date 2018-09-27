@@ -35,7 +35,7 @@ public class TodoController {
   public String getList(@PathVariable(value = "todolist.id") int id, Model model) {
     model.addAttribute("todolistlist", todoService.getLists());
     model.addAttribute("todolistobject", todoService.getListById(id));
-    model.addAttribute("todolist", todoService.getListById(id).getTodolist());
+    model.addAttribute("todolist", todoService.getTodosByListId(id));
     return "index";
   }
 
@@ -66,6 +66,12 @@ public class TodoController {
   @GetMapping(value = {"/getlist/{todolistobject.id}/check/{todo.id}"})
   public String checkTodo(@PathVariable(value = "todolistobject.id") long listid, @PathVariable(value = "todo.id") long todoid) {
     todoService.checkTodo(todoid);
+    return "redirect:/getlist/{todolistobject.id}";
+  }
+
+  @GetMapping(value = {"/getlist/{todolistobject.id}/setprio/{todo.id}"})
+  public String prioritizeTodo(@PathVariable(value = "todolistobject.id") long listid, @PathVariable(value = "todo.id") long todoid) {
+    todoService.raiseTodoPrio(todoid);
     return "redirect:/getlist/{todolistobject.id}";
   }
 

@@ -10,10 +10,11 @@ public interface TodoService {
   TodoList createList(String listname);
   List<TodoList> getLists();
   TodoList getListById(long listId);
+  List<Todo> getTodosByListId(long listId);
   Todo getTodoById(long todoId);
   Todo addTodo(long listId, Todo todo);
   void removeList(long id);
   Todo checkTodo(long todoId);
   Todo editTodo(String task, long todoId);
-  Todo raiseTodoPrio(int priority, long todoId);
+  Todo raiseTodoPrio(long todoId);
 }

@@ -12,8 +12,7 @@ public class Todo {
   private long id;
   private String task;
   private boolean completed;
-
-  private int priority;
+  private boolean priority;
 
   public Todo() {
   }
@@ -21,7 +20,7 @@ public class Todo {
   public Todo(String task) {
     this.task = task;
     completed = false;
-    priority = 3;
+    priority = false;
   }
 
   public String getTask() {
@@ -44,11 +43,11 @@ public class Todo {
     this.completed = completed;
   }
 
-  public int getPriority() {
+  public boolean getPriority() {
     return priority;
   }
 
-  public void setPriority(int priority) {
+  public void setPriority(boolean priority) {
     this.priority = priority;
   }
 }
