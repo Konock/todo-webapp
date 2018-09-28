@@ -50,6 +50,7 @@ public class TodoServiceImpl implements TodoService {
     return todolist;
   }
 
+  @Override
   public List<Todo> searchTodoByTask(String task) {
     List<Todo> alltodos = todoRepository.findAll();
     List<Todo> foundTodos = new ArrayList<>();
@@ -59,10 +60,12 @@ public class TodoServiceImpl implements TodoService {
     return foundTodos;
   }
 
+  @Override
   public List<Todo> getCompletedTodos() {
     return todoRepository.findByCompleted(true);
   }
 
+  @Override
   public List<Todo> getPriorityTodos() {
     return todoRepository.findByPriority(true);
   }
@@ -122,5 +125,6 @@ public class TodoServiceImpl implements TodoService {
     TodoList todoList = todoListRepository.findById(listId);
     todoList.remove(todoRepository.findById(todoId));
     todoListRepository.save(todoList);
+    todoRepository.deleteById(todoId);
   }
 }

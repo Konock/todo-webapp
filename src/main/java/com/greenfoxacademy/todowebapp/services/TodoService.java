@@ -11,6 +11,9 @@ public interface TodoService {
   List<TodoList> getLists();
   TodoList getListById(long listId);
   List<Todo> getSortedTodosByListId(long listId);
+  List<Todo> searchTodoByTask(String task);
+  List<Todo> getCompletedTodos();
+  List<Todo> getPriorityTodos();
   Todo getTodoById(long todoId);
   Todo addTodo(long listId, Todo todo);
   void removeList(long id);

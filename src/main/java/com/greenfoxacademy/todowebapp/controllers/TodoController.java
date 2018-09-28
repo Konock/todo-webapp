@@ -77,7 +77,7 @@ public class TodoController {
     return "redirect:/getlist/" + activeListId;
   }
 
-  @PostMapping("/edit/{todo.id")
+  @PostMapping("/edit/{todo.id}")
   public String editTodo(@PathVariable(value = "todo.id") long todoid, @ModelAttribute(value = "task") String task) {
     todoService.editTodo(task, todoid);
     return "redirect:/getlist/" + activeListId;
