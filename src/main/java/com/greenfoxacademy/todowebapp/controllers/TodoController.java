@@ -2,6 +2,7 @@ package com.greenfoxacademy.todowebapp.controllers;
 
 import com.greenfoxacademy.todowebapp.models.Todo;
 import com.greenfoxacademy.todowebapp.services.TodoServiceImpl;
+import com.greenfoxacademy.todowebapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,16 +11,18 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class TodoController {
   TodoServiceImpl todoService;
+  UserService userService;
   private static long activeListId;
 
   @Autowired
-  public TodoController(TodoServiceImpl todoService) {
+  public TodoController(TodoServiceImpl todoService, UserService userService) {
     this.todoService = todoService;
+    this.userService = userService;
   }
 
   @GetMapping("/")
   public String loadApp() {
-    if (todoService.getLists() == null) {
+    if (userService.getLoggedInUser() == null) {
       return "nolistsview";
     } else {
       return "redirect:/getlist";

@@ -24,7 +24,7 @@
             <a class="navbar-brand" href="/"><i class="fas fa-th-list"></i> Totodo</a>
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href="#">Login</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -37,23 +37,19 @@
 
 <body>
 <div class="container">
-    <div class="row app">
-
-        <!-- TodoLists will be shown here -->
-        <div class="col-4 lists">
-            <h1 class="btn-secondary btn-lg h1button">Your todo lists</h1>
-            <form class="form-inline" action="/addlist" method="post">
-                <div class="form-group mb-2">
-                    <label for="name"></label>
-                    <input class="form-text" type="text" id="name" name="name">
+    <div class="row">
+        <div class="col-4">
+            <h1 class="btn-secondary btn-lg h1button">Login</h1>
+            <form action="/login" method="post">
+                <div class="form-group">
+                    <label for="username">Username: </label>
+                    <input class="form-text" type="text" id="username" name="username">
+                    <label for="password">Password: </label>
+                    <input class="form-text" type="password" id="password" name="password">
                     <button type="submit" class="btn btn-sm btn-primary">add</button>
                 </div>
             </form>
-        </div>
-
-        <!-- Todos will be shown here -->
-        <div class="col-8 todos">
-            <h1 class="btn-secondary btn-lg h1button">You have no todo lists yet. Please login or add one!</h1>
+            <a href="/signup">Sign up</a>
         </div>
     </div>
 </div>
