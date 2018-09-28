@@ -10,4 +10,7 @@ public interface UserService {
   void loginUser(User user);
   User getLoggedInUser();
   List<TodoList> getUsersTodolists(User user);
+  void addListToUser(TodoList list);
+  void saveUser();
+  User createUser(User user);
 }

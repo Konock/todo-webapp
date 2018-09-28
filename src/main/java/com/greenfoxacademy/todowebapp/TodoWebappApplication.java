@@ -20,12 +20,6 @@ import java.util.List;
 
 @SpringBootApplication
 public class TodoWebappApplication implements CommandLineRunner {
-  @Autowired
-  TodoRepository todoRepository;
-  @Autowired
-  TodoListRepository todoListRepository;
-  @Autowired
-  UserRepository userRepository;
 
 
   public static void main(String[] args) {
@@ -34,15 +28,5 @@ public class TodoWebappApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    Todo todo = new Todo("meh");
-    TodoList todoList = new TodoList();
-    todoList.add(todo);
-    User user = new User("admin", "admin");
-    List<TodoList> userlists = new ArrayList<>();
-    userlists.add(todoList);
-    user.setTodoLists(userlists);
-    userRepository.save(user);
-    todoListRepository.save(todoList);
-    todoRepository.save(todo);
   }
 }

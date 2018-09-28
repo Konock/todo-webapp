@@ -29,6 +29,21 @@ public class UserServiceImpl implements UserService {
     return validate;
   }
 
+  public void addListToUser(TodoList list) {
+    getLoggedInUser().getTodoLists().add(list);
+    saveUser();
+  }
+
+  public void saveUser() {
+    userRepository.save(getLoggedInUser());
+  }
+
+  @Override
+  public User createUser(User user) {
+    userRepository.save(user);
+    return user;
+  }
+
   @Override
   public void loginUser(User user) {
     session.setAttribute(sessionKey, user);

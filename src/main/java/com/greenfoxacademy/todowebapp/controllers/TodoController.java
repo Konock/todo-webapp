@@ -2,7 +2,7 @@ package com.greenfoxacademy.todowebapp.controllers;
 
 import com.greenfoxacademy.todowebapp.models.Todo;
 import com.greenfoxacademy.todowebapp.services.TodoServiceImpl;
-import com.greenfoxacademy.todowebapp.services.UserService;
+import com.greenfoxacademy.todowebapp.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class TodoController {
   TodoServiceImpl todoService;
-  UserService userService;
+  UserServiceImpl userService;
   private static long activeListId;
 
   @Autowired
-  public TodoController(TodoServiceImpl todoService, UserService userService) {
+  public TodoController(TodoServiceImpl todoService, UserServiceImpl userService) {
     this.todoService = todoService;
     this.userService = userService;
   }
@@ -31,14 +31,14 @@ public class TodoController {
 
   @GetMapping("getlist")
   public String getLists(Model model) {
-    model.addAttribute("todolistlist", todoService.getLists());
+    model.addAttribute("todolistlist", userService.getUsersTodolists(userService.getLoggedInUser()));
     return "getlistsview";
   }
 
   @GetMapping("getlist/{todolist.id}")
   public String getList(@PathVariable(value = "todolist.id") int id, Model model) {
     activeListId = id;
-    model.addAttribute("todolistlist", todoService.getLists());
+    model.addAttribute("todolistlist", userService.getUsersTodolists(userService.getLoggedInUser()));
     model.addAttribute("todolistobject", todoService.getListById(activeListId));
     model.addAttribute("todolist", todoService.getSortedTodosByListId(activeListId));
     return "index";
@@ -46,7 +46,7 @@ public class TodoController {
 
   @PostMapping("/addlist")
   public String addList(@ModelAttribute(value = "name") String name) {
-    todoService.createList(name);
+    userService.addListToUser(todoService.createList(name));
     return "redirect:/";
   }
 
@@ -88,21 +88,21 @@ public class TodoController {
 
   @PostMapping("/searchtodos")
   public String searchTodos(Model model, @ModelAttribute(value="search") String task) {
-    model.addAttribute("todolistlist", todoService.getLists());
+    model.addAttribute("todolistlist", userService.getUsersTodolists(userService.getLoggedInUser()));
     model.addAttribute("todolist", todoService.searchTodoByTask(task));
     return "customsearchview";
   }
 
   @GetMapping("/getcompleted")
   public String getCompleted(Model model) {
-    model.addAttribute("todolistlist", todoService.getLists());
+    model.addAttribute("todolistlist", userService.getUsersTodolists(userService.getLoggedInUser()));
     model.addAttribute("todolist", todoService.getCompletedTodos());
     return "customsearchview";
   }
 
   @GetMapping("/getpriority")
   public String getPriority(Model model) {
-    model.addAttribute("todolistlist", todoService.getLists());
+    model.addAttribute("todolistlist", userService.getUsersTodolists(userService.getLoggedInUser()));
     model.addAttribute("todolist", todoService.getPriorityTodos());
     return "customsearchview";
   }
