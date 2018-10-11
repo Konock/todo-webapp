@@ -1,5 +1,6 @@
 package com.greenfoxacademy.todowebapp.controllers;
 
+import com.greenfoxacademy.todowebapp.dtos.UserDTO;
 import com.greenfoxacademy.todowebapp.models.User;
 import com.greenfoxacademy.todowebapp.services.UserServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,7 @@ public class LoginController {
   }
 
   @PostMapping("/signup")
-  public String signupUser(User user) {
+  public String signupUser(UserDTO user) {
     userService.createUser(user);
     return "login/login.html";
   }

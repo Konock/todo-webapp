@@ -1,8 +1,11 @@
 package com.greenfoxacademy.todowebapp.services;
 
+import com.greenfoxacademy.todowebapp.dtos.UserDTO;
 import com.greenfoxacademy.todowebapp.models.TodoList;
 import com.greenfoxacademy.todowebapp.models.User;
 import com.greenfoxacademy.todowebapp.repositories.UserRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +16,11 @@ public class UserServiceImpl implements UserService {
   private UserRepository userRepository;
   private final HttpSession session;
   private static final String sessionKey = "user";
+
+  @Bean
+  public ModelMapper modelMapper() {
+    return new ModelMapper();
+  }
 
   public UserServiceImpl(UserRepository userRepository, HttpSession session) {
     this.userRepository = userRepository;
@@ -39,7 +47,8 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User createUser(User user) {
+  public User createUser(UserDTO userDTO) {
+    User user = modelMapper().map(userDTO, User.class);
     userRepository.save(user);
     return user;
   }

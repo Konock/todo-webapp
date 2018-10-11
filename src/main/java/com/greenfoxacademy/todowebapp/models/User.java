@@ -18,11 +18,11 @@ public class User {
     todoLists = new ArrayList<>();
   }
 
-  public User(String username, String password) {
-    todoLists = new ArrayList<>();
-    this.username = username;
-    this.password = password;
-  }
+  // public User(String username, String password) {
+  //   todoLists = new ArrayList<>();
+  //   this.username = username;
+  //   this.password = password;
+  // }
 
   public long getUserId() {
     return userId;

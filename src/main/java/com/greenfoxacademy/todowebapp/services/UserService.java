@@ -1,5 +1,6 @@
 package com.greenfoxacademy.todowebapp.services;
 
+import com.greenfoxacademy.todowebapp.dtos.UserDTO;
 import com.greenfoxacademy.todowebapp.models.TodoList;
 import com.greenfoxacademy.todowebapp.models.User;
 
@@ -12,5 +13,5 @@ public interface UserService {
   List<TodoList> getUsersTodolists(User user);
   void addListToUser(TodoList list);
   void saveUser();
-  User createUser(User user);
+  User createUser(UserDTO userDTO);
 }
