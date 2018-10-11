@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="todoUser")
-public class User {
+public class TodoUser {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long userId;
@@ -14,11 +14,10 @@ public class User {
   @OneToMany(cascade = CascadeType.ALL)
   private List<TodoList> todoLists;
 
-  public User() {
-    todoLists = new ArrayList<>();
+  public TodoUser() {
   }
 
-  public User(String username, String password) {
+  public TodoUser(String username, String password) {
     todoLists = new ArrayList<>();
     this.username = username;
     this.password = password;

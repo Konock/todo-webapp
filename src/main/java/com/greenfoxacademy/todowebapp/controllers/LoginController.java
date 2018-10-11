@@ -1,7 +1,7 @@
 package com.greenfoxacademy.todowebapp.controllers;
 
 import com.greenfoxacademy.todowebapp.dtos.UserDTO;
-import com.greenfoxacademy.todowebapp.models.User;
+import com.greenfoxacademy.todowebapp.models.TodoUser;
 import com.greenfoxacademy.todowebapp.services.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +21,9 @@ public class LoginController {
   }
 
   @PostMapping("/login")
-  public String loginUser(User user) {
-    if (userService.validateUser(user)) {
-      userService.loginUser(user);
+  public String loginUser(TodoUser todoUser) {
+    if (userService.validateUser(todoUser)) {
+      userService.loginUser(todoUser);
       return "redirect:/";
     } else {
       return "login/login.html";
