@@ -28,12 +28,14 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-web')
-    // compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.springframework.boot:spring-boot-starter-security")
     compile('org.modelmapper:modelmapper:2.3.0')
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime('mysql:mysql-connector-java')
     runtime('org.postgresql:postgresql')
     compileOnly('org.projectlombok:lombok')
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    // testCompile('org.springframework.security:spring-security-test')
+    testCompile('org.springframework.security:spring-security-test')
+    testCompile('javax.xml.bind:jaxb-api')
 }
