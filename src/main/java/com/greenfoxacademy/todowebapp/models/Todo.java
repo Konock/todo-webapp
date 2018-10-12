@@ -1,11 +1,16 @@
 package com.greenfoxacademy.todowebapp.models;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
+@Getter @Setter @NoArgsConstructor
 public class Todo {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,40 +19,9 @@ public class Todo {
   private boolean completed;
   private boolean priority;
 
-  public Todo() {
-  }
-
   public Todo(String task) {
     this.task = task;
     completed = false;
     priority = false;
-  }
-
-  public String getTask() {
-    return task;
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public void setTask(String description) {
-    task = description;
-  }
-
-  public boolean isCompleted() {
-    return completed;
-  }
-
-  public void setCompleted(boolean completed) {
-    this.completed = completed;
-  }
-
-  public boolean getPriority() {
-    return priority;
-  }
-
-  public void setPriority(boolean priority) {
-    this.priority = priority;
   }
 }

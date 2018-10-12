@@ -27,14 +27,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.cors().and().csrf().disable().authorizeRequests()
+    http
+        .cors().and().csrf().disable()
+        .authorizeRequests()
+        .antMatchers("/signup").permitAll()
         .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
         .anyRequest().authenticated()
         .and()
+        .formLogin()
+        .loginPage("/login")
+        .permitAll()
+        .and()
+        .logout()
+        .logoutSuccessUrl("/login?logout")
+        .permitAll()
+        .and()
         .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-        .addFilter(new JWTLoginFilter(authenticationManager()))
+        .addFilter(new JWTLoginFilter(authenticationManager()));
         // this disables session creation on Spring Security
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        // .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    http.authorizeRequests().antMatchers("/resources/**").permitAll().anyRequest().permitAll();
+
   }
 
   @Override

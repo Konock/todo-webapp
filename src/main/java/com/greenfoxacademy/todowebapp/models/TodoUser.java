@@ -1,10 +1,19 @@
 package com.greenfoxacademy.todowebapp.models;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@Entity(name="todoUser")
+@Entity(name = "todoUser")
+@Getter
+@Setter
+@NoArgsConstructor
 public class TodoUser {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,9 +22,13 @@ public class TodoUser {
   private String password;
   @OneToMany(cascade = CascadeType.ALL)
   private List<TodoList> todoLists;
-
-  public TodoUser() {
-  }
+  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinTable(
+      name = "users_roles",
+      joinColumns = {@JoinColumn(name = "user_id")},
+      inverseJoinColumns = {@JoinColumn(name = "role_id")}
+  )
+  private Set<Role> roles = new HashSet<Role>();
 
   public TodoUser(String username, String password) {
     todoLists = new ArrayList<>();
@@ -23,35 +36,15 @@ public class TodoUser {
     this.password = password;
   }
 
-  public long getUserId() {
-    return userId;
+  public Set<Role> getRoles() {
+    return roles;
   }
 
-  public void setUserId(long userId) {
-    this.userId = userId;
+  public void setRoles(Set<Role> roles) {
+    this.roles = roles;
   }
 
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public List<TodoList> getTodoLists() {
-    return todoLists;
-  }
-
-  public void setTodoLists(List<TodoList> todoLists) {
-    this.todoLists = todoLists;
+  public void addRole(String role) {
+    roles.add(new Role(role, this));
   }
 }

@@ -1,9 +1,14 @@
 package com.greenfoxacademy.todowebapp.controllers;
 
 import com.greenfoxacademy.todowebapp.models.Todo;
+import com.greenfoxacademy.todowebapp.models.TodoList;
+import com.greenfoxacademy.todowebapp.models.TodoUser;
 import com.greenfoxacademy.todowebapp.services.TodoServiceImpl;
 import com.greenfoxacademy.todowebapp.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +19,15 @@ public class TodoController {
   UserServiceImpl userService;
   private static long activeListId;
 
+  public TodoUser getLoggedInUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (!(authentication instanceof AnonymousAuthenticationToken)) {
+      String currentUserName = authentication.getName();
+      return userService.getUserByName(currentUserName);
+    }
+    else return null;
+  }
+
   @Autowired
   public TodoController(TodoServiceImpl todoService, UserServiceImpl userService) {
     this.todoService = todoService;
@@ -22,23 +36,19 @@ public class TodoController {
 
   @GetMapping("/")
   public String loadApp() {
-    if (userService.getLoggedInUser() == null) {
-      return "nolistsview";
-    } else {
-      return "redirect:/getlist";
-    }
+    return "redirect:/getlist";
   }
 
   @GetMapping("getlist")
   public String getLists(Model model) {
-    model.addAttribute("todolistlist", userService.getUsersTodolists(userService.getLoggedInUser()));
+    model.addAttribute("todolistlist", userService.getUsersTodolists(getLoggedInUser()));
     return "getlistsview";
   }
 
   @GetMapping("getlist/{todolist.id}")
   public String getList(@PathVariable(value = "todolist.id") int id, Model model) {
     activeListId = id;
-    model.addAttribute("todolistlist", userService.getUsersTodolists(userService.getLoggedInUser()));
+    model.addAttribute("todolistlist", userService.getUsersTodolists(getLoggedInUser()));
     model.addAttribute("todolistobject", todoService.getListById(activeListId));
     model.addAttribute("todolist", todoService.getSortedTodosByListId(activeListId));
     return "index";
@@ -46,7 +56,7 @@ public class TodoController {
 
   @PostMapping("/addlist")
   public String addList(@ModelAttribute(value = "name") String name) {
-    userService.addListToUser(todoService.createList(name));
+    userService.addListToUser(getLoggedInUser(), new TodoList(name));
     return "redirect:/";
   }
 
@@ -87,22 +97,22 @@ public class TodoController {
   }
 
   @PostMapping("/searchtodos")
-  public String searchTodos(Model model, @ModelAttribute(value="search") String task) {
-    model.addAttribute("todolistlist", userService.getUsersTodolists(userService.getLoggedInUser()));
+  public String searchTodos(Model model, @ModelAttribute(value = "search") String task) {
+    model.addAttribute("todolistlist", userService.getUsersTodolists(getLoggedInUser()));
     model.addAttribute("todolist", todoService.searchTodoByTask(task));
     return "customsearchview";
   }
 
   @GetMapping("/getcompleted")
   public String getCompleted(Model model) {
-    model.addAttribute("todolistlist", userService.getUsersTodolists(userService.getLoggedInUser()));
+    model.addAttribute("todolistlist", userService.getUsersTodolists(getLoggedInUser()));
     model.addAttribute("todolist", todoService.getCompletedTodos());
     return "customsearchview";
   }
 
   @GetMapping("/getpriority")
   public String getPriority(Model model) {
-    model.addAttribute("todolistlist", userService.getUsersTodolists(userService.getLoggedInUser()));
+    model.addAttribute("todolistlist", userService.getUsersTodolists(getLoggedInUser()));
     model.addAttribute("todolist", todoService.getPriorityTodos());
     return "customsearchview";
   }

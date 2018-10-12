@@ -1,10 +1,15 @@
 package com.greenfoxacademy.todowebapp.models;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter @Setter
 public class TodoList {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,25 +38,5 @@ public class TodoList {
   public void remove(Todo todo) {
     if (todolist.contains(todo))
       todolist.remove(todo);
-  }
-
-  public List<Todo> getTodolist() {
-    return todolist;
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 }

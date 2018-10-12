@@ -34,6 +34,7 @@ dependencies {
     runtime('mysql:mysql-connector-java')
     runtime('org.postgresql:postgresql')
     compileOnly('org.projectlombok:lombok')
+    compile("com.auth0:java-jwt:3.4.0")
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
     testCompile('org.springframework.boot:spring-boot-starter-test')

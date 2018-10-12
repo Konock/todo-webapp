@@ -49,7 +49,7 @@ public class TodoServiceImpl implements TodoService {
   public List<Todo> getSortedTodosByListId(long listId) {
     List<Todo> todolist = todoListRepository.findById(listId).getTodolist().stream()
         .sorted(Comparator.comparing(Todo::isCompleted))
-        .sorted(Comparator.comparing(Todo::getPriority).reversed())
+        .sorted(Comparator.comparing(Todo::isPriority).reversed())
         .collect(Collectors.toList());
     return todolist;
   }
@@ -116,7 +116,7 @@ public class TodoServiceImpl implements TodoService {
   @Override
   public Todo raiseTodoPrio(long todoId) {
     Todo todo = getTodoById(todoId);
-    if (!todo.getPriority())
+    if (!todo.isPriority())
       todo.setPriority(true);
     else
       todo.setPriority(false);

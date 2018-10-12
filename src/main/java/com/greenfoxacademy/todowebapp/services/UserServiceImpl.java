@@ -1,71 +1,58 @@
 package com.greenfoxacademy.todowebapp.services;
 
 import com.greenfoxacademy.todowebapp.dtos.UserDTO;
+import com.greenfoxacademy.todowebapp.models.Role;
 import com.greenfoxacademy.todowebapp.models.TodoList;
 import com.greenfoxacademy.todowebapp.models.TodoUser;
+import com.greenfoxacademy.todowebapp.repositories.RoleRepository;
 import com.greenfoxacademy.todowebapp.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
-
-import static java.util.Collections.emptyList;
 
 @Service
 public class UserServiceImpl implements UserService {
   private UserRepository userRepository;
-  private final HttpSession session;
-  private static final String sessionKey = "user";
+  private RoleRepository roleRepository;
+  private UserDetailsServiceImpl userDetailsService;
 
   @Bean
   public ModelMapper modelMapper() {
     return new ModelMapper();
   }
 
-  public UserServiceImpl(UserRepository userRepository, HttpSession session) {
+  public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserDetailsServiceImpl userDetailsService) {
     this.userRepository = userRepository;
-    this.session = session;
+    this.roleRepository = roleRepository;
+    this.userDetailsService = userDetailsService;
   }
 
-  @Override
-  public boolean validateUser(TodoUser todoUserToValidate) {
-    boolean validate = false;
-    List<TodoUser> todoUserList = userRepository.findAll();
-    for (TodoUser todoUser : todoUserList)
-      if (todoUser.getUsername().equals(todoUserToValidate.getUsername()) && todoUser.getPassword().equals(todoUserToValidate.getPassword()))
-        validate = true;
-    return validate;
+  public void addListToUser(TodoUser user, TodoList list) {
+    user.getTodoLists().add(list);
+    saveUser(user);
   }
 
-  public void addListToUser(TodoList list) {
-    getLoggedInUser().getTodoLists().add(list);
-    saveUser();
+  public TodoUser getUserByName(String username) {
+    return userRepository.findByUsername(username);
   }
 
-  public void saveUser() {
-    userRepository.save(getLoggedInUser());
+  public void saveUser(TodoUser user) {
+    userRepository.save(user);
   }
 
   @Override
   public TodoUser createUser(UserDTO userDTO) {
-    TodoUser todoUser = modelMapper().map(userDTO, TodoUser.class);
-    userRepository.save(todoUser);
-    return todoUser;
-  }
-
-  @Override
-  public void loginUser(TodoUser todoUser) {
-    session.setAttribute(sessionKey, todoUser);
-  }
-
-  @Override
-  public TodoUser getLoggedInUser() {
-    return (TodoUser)session.getAttribute(sessionKey);
+    TodoUser newUser = modelMapper().map(userDTO, TodoUser.class);
+    Role userRole = roleRepository.findByRole("USER");
+    if (userRole != null) {
+      newUser.getRoles().add(userRole);
+    } else {
+      newUser.addRole("USER");
+    }
+    userRepository.save(newUser);
+    return newUser;
   }
 
   @Override
