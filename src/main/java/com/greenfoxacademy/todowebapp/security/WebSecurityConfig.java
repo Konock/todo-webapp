@@ -4,6 +4,7 @@ import com.greenfoxacademy.todowebapp.services.UserDetailsServiceImpl;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,10 +27,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Override
+  public void configure(WebSecurity web) throws Exception {
+    web
+        .ignoring()
+        .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+  }
+
+  @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
         .cors().and().csrf().disable()
         .authorizeRequests()
+        .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**").permitAll()
         .antMatchers("/signup").permitAll()
         .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
         .anyRequest().authenticated()
@@ -46,7 +55,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .addFilter(new JWTLoginFilter(authenticationManager()));
         // this disables session creation on Spring Security
         // .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    http.authorizeRequests().antMatchers("/resources/**").permitAll().anyRequest().permitAll();
 
   }
 
